@@ -1754,17 +1754,15 @@ button {
 .modal-overlay {
   position: fixed;
   inset: 0;
+  /* top: 0, right: 0, bottom: 0, left: 0 と同じ */
   background: rgba(0, 0, 0, 0.75);
   backdrop-filter: blur(8px);
-  /* 背景ぼかし */
   -webkit-backdrop-filter: blur(8px);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
-
-  /* アニメーション用 */
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.4s cubic-bezier(0.08, 0.85, 0.1, 1),
@@ -1780,14 +1778,14 @@ button {
   position: relative;
   width: 100%;
   max-width: 380px;
+  margin: auto;
+  /* 余白を自動調整 */
   background: #141414;
   border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 40px 28px 32px;
   text-align: center;
   border-radius: 4px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-
-  /* ポップアップ時のスライド＆拡大アニメーション */
   transform: scale(0.92) translateY(10px);
   transition: transform 0.4s cubic-bezier(0.08, 0.85, 0.1, 1);
 }
@@ -1796,7 +1794,6 @@ button {
   transform: scale(1) translateY(0);
 }
 
-/* 閉じるボタン */
 .modal-close {
   position: absolute;
   top: 16px;
@@ -1835,7 +1832,6 @@ button {
   margin-bottom: 28px;
 }
 
-/* モーダル内のアンケートボタン */
 .modal-survey-button {
   display: block;
   width: 100%;
@@ -1848,12 +1844,12 @@ button {
   letter-spacing: 0.1em;
   text-decoration: none;
   border-radius: 2px;
-  transition: background-color 0.2s ease, transform 0.15s ease;
+  transition: none;
 }
 
 .modal-survey-button:active {
-  transform: scale(0.98);
-  background-color: #e0e0e0;
+  transform: none;
+  background-color: #ffffff;
 }
 
 /* ======================================== Cart Information ======================================== */
