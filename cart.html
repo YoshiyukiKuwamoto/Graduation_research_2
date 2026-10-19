@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+
+    <!-- スマートフォン表示用 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cart | LUNÉ</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- 共通CSS -->
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+    <!-- =========================
+         Header
+    ========================== -->
+
+    <header class="site-header">
+
+        <!-- 左：ロゴ -->
+        <a href="index.html" class="logo">
+            LUNÉ
+        </a>
+
+        <!-- 右：3つのアイコン -->
+        <div class="header-icons">
+
+            <!-- 検索 -->
+            <button class="header-icon" id="search-toggle" type="button" aria-label="検索">
+                <svg class="humbleicons hi-search" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                    viewBox="0 0 24 24">
+                    <g stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" d="m20 20-6-6" />
+                        <path d="M15 9.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0Z" />
+                    </g>
+                </svg>
+            </button>
+
+            <!-- カート -->
+            <a href="cart.html" class="header-icon cart-icon" aria-label="カート">
+                <svg class="humbleicons hi-cart" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                    viewBox="0 0 24 24">
+                    <circle cx="7.5" cy="18.5" r="1.5" fill="currentColor" />
+                    <circle cx="16.5" cy="18.5" r="1.5" fill="currentColor" />
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 5h2l.6 3m0 0L7 15h10l2-7H5.6z" />
+                </svg>
+                <span class="cart-count">0</span>
+            </a>
+
+            <!-- ハンバーガーメニュー -->
+            <button class="header-icon" id="menu-toggle" type="button" aria-label="メニューを開く" aria-expanded="false">
+                <svg class="humbleicons hi-bars" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                    viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+
+        </div>
+    </header>
+
+    <!-- =========================
+        Nav Overlay Menu
+    ========================== -->
+    <div class="nav-overlay" id="nav-overlay" aria-hidden="true">
+        <!-- 閉じるボタン -->
+        <button class="nav-close" id="menu-close" type="button" aria-label="メニューを閉じる">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+
+        <div class="nav-container">
+
+            <!-- メニューリスト -->
+            <ul class="nav-list">
+                <li class="nav-item-wrap">
+                    <a href="products.html" class="nav-link">
+                        <span>PRODUCTS</span>
+                    </a>
+                </li>
+                <li class="nav-item-wrap">
+                    <a href="#" class="nav-link">
+                        <span>SPECIAL</span>
+                    </a>
+                </li>
+                <li class="nav-item-wrap">
+                    <a href="#" class="nav-link">ABOUT</a>
+                </li>
+                <li class="nav-item-wrap">
+                    <a href="#" class="nav-link">NEWS</a>
+                </li>
+                <li class="nav-item-wrap">
+                    <a href="#" class="nav-link">final LAB</a>
+                </li>
+                <li class="nav-item-wrap">
+                    <a href="#" class="nav-link">SUPPORT</a>
+                </li>
+                <li class="nav-item-wrap">
+                    <a href="#" class="nav-link">RECRUIT</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- =========================
+         Main
+    ========================== -->
+
+    <main>
+
+        <!-- =========================
+             Cart Header
+        ========================== -->
+
+        <section class="cart-header fade-in-up">
+
+            <p class="section-label">
+                SHOPPING
+            </p>
+
+            <h1>
+                CART
+            </h1>
+
+        </section>
+
+
+
+        <!-- =========================
+             Cart Contents
+        ========================== -->
+
+        <section class="cart-section fade-in-up delay-1">
+
+            <!-- JavaScriptで商品を動的表示 -->
+            <div id="cart-items"></div>
+
+
+            <!-- =====================
+                        Cart Summary
+                   ====================== -->
+            <div class="cart-summary">
+            
+                <div class="summary-row">
+                    <span>SUBTOTAL</span>
+                    <span id="subtotal">¥--,---</span>
+                </div>
+            
+                <div class="summary-row">
+                    <span>SHIPPING</span>
+                    <span id="shipping">¥--,---</span>
+                </div>
+            
+                <div class="summary-total">
+                    <span>TOTAL</span>
+                    <span id="total">¥--,---</span>
+                </div>
+            
+                <!-- ========================================
+                                cart.html のボタンとモーダル要素
+                           ======================================== -->
+                
+                <!-- 1. CHECKOUTボタン部分（cart-summary内） -->
+                <button class="checkout-button" type="button" id="checkout-button">
+                    <span>会計する</span>
+                </button>
+                
+                <!-- 2. モーダル本体（bodyの最下部・scriptタグの直前あたりに追加） -->
+                <div class="modal-overlay" id="surveyModal" aria-hidden="true">
+                    <div class="modal-content">
+                        <button class="modal-close" id="modalClose" type="button" aria-label="閉じる">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                
+                        <p class="modal-label">LUNÉ</p>
+                        <h2 class="modal-title">ご協力ありがとうございました。</h2>
+                        <p class="modal-text">続けてアンケートのご回答をお願いします。</p>
+                
+                        <a href="#" class="modal-survey-button" id="surveyStartBtn">
+                            アンケートに答える
+                        </a>
+                    </div>     </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =========================
+         Footer
+    ========================== -->
+
+    <footer class="footer">
+
+        <div class="footer-logo">
+            LUNÉ
+        </div>
+
+
+        <div class="footer-links">
+
+            <a href="products.html">
+                PRODUCTS
+            </a>
+
+            <a href="#">
+                ABOUT
+            </a>
+
+            <a href="#">
+                CONTACT
+            </a>
+
+            <a href="#">
+                PRIVACY POLICY
+            </a>
+
+        </div>
+
+
+        <p class="copyright">
+            © 2026 LUNÉ. All Rights Reserved.
+        </p>
+
+    </footer>
+
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>

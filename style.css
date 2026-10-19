@@ -1,0 +1,2195 @@
+/* ========================================
+   Base
+======================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0a0a0a;
+  color: #f5f5f5;
+  font-family:
+    "Inter",
+    "Noto Sans JP",
+    sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+}
+
+
+/* ========================================
+   Header
+======================================== */
+
+/* Header */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 64px;
+  padding: 0 20px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(10, 10, 10, 0.92);
+  z-index: 100;
+}
+
+/* Logo */
+.logo {
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  color: #fff;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+/* Right-side icons */
+.header-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Icon buttons and links */
+.header-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.header-icon svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+/* Cart count */
+.cart-count {
+  position: absolute;
+  top: -3px;
+  right: -6px;
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #0066ff;
+  color: #fff;
+  font-size: 9px;
+  line-height: 1;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* ========================================
+   Nav Overlay (Hamburger Menu)
+======================================== */
+
+.nav-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  background-color: #121212;
+  z-index: 999;
+  padding: 24px 20px 40px;
+  overflow-y: auto;
+
+  /* 開閉用アニメーション：画面右外側に配置 */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(100%);
+
+  /* 1.4秒かける超ゆったり＆重厚・粘り気のある摩擦イージング */
+  transition: transform 1.4s cubic-bezier(0.08, 0.85, 0.1, 1),
+    opacity 1.0s ease-out,
+    visibility 1.4s;
+}
+
+/* メニュー開時：右から左へスライドイン */
+.nav-overlay.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+/* 右上閉じるボタン */
+.nav-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 4px;
+}
+
+/* コンテナ */
+.nav-container {
+  max-width: 440px;
+  margin: 48px auto 0;
+}
+
+/* リスト領域 */
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item-wrap {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nav-list .nav-item-wrap:first-child {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 4px;
+  color: #f0f0f0;
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+}
+
+/* ----------------------------------------
+   文字が左から右へ順に登場するアニメーション
+---------------------------------------- */
+
+.nav-overlay .nav-item-wrap {
+  opacity: 0;
+  transform: translateX(-40px);
+  /* 文字の移動も重みをもたせてゆっくりに（1.0秒） */
+  transition: opacity 1.0s cubic-bezier(0.08, 0.85, 0.1, 1),
+    transform 1.0s cubic-bezier(0.08, 0.85, 0.1, 1);
+}
+
+/* メニューが開いたら順番にディレイ（遅延）をかける */
+.nav-overlay.is-active .nav-item-wrap {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* 全体のスライドに合わせて登場時間差もゆったり伸ばす */
+.nav-overlay.is-active .nav-container>.nav-item-wrap {
+  transition-delay: 0.35s;
+}
+
+.nav-overlay.is-active .nav-list .nav-item-wrap:nth-child(1) {
+  transition-delay: 0.47s;
+}
+
+.nav-overlay.is-active .nav-list .nav-item-wrap:nth-child(2) {
+  transition-delay: 0.59s;
+}
+
+.nav-overlay.is-active .nav-list .nav-item-wrap:nth-child(3) {
+  transition-delay: 0.71s;
+}
+
+.nav-overlay.is-active .nav-list .nav-item-wrap:nth-child(4) {
+  transition-delay: 0.83s;
+}
+
+.nav-overlay.is-active .nav-list .nav-item-wrap:nth-child(5) {
+  transition-delay: 0.95s;
+}
+
+.nav-overlay.is-active .nav-list .nav-item-wrap:nth-child(6) {
+  transition-delay: 1.07s;
+}
+
+.nav-overlay.is-active .nav-list .nav-item-wrap:nth-child(7) {
+  transition-delay: 1.19s;
+}
+
+/* PCサイズ時（画面幅768px以上）対応 */
+@media (min-width: 768px) {
+  .nav-overlay {
+    max-width: 480px;
+    left: calc(50% - 240px);
+    transform: translateX(100vw);
+  }
+
+  .nav-overlay.is-active {
+    transform: translateX(0);
+  }
+}
+
+/* ========================================
+   Hero
+======================================== */
+
+.hero {
+  min-height: 100svh;
+
+  padding-top: 64px;
+
+  display: flex;
+  flex-direction: column;
+
+  position: relative;
+}
+
+
+/* Hero Image */
+
+.hero-image {
+  width: 100%;
+  height: 58svh;
+  position: relative;
+  /* 子要素の絶対配置基準 */
+  overflow: hidden;
+}
+
+/* 各スライド */
+.carousel-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  /* 1秒かけてふわっと切り替え */
+  transition: opacity 1.0s ease-in-out, visibility 1.0s ease-in-out;
+}
+
+.carousel-slide.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* 右下ドットインジケーター（・・・・・） */
+.carousel-dots {
+  position: absolute;
+  bottom: 16px;
+  right: 20px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ドットのスタイル */
+.carousel-dots .dot {
+  width: 6px;
+  height: 6px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  transition: background-color 0.4s ease, transform 0.4s ease;
+}
+
+/* アクティブ（現在表示中）のドット */
+.carousel-dots .dot.active {
+  background-color: #ffffff;
+  transform: scale(1.3);
+  /* 少し大きく強調 */
+}
+
+
+/* Hero Content */
+
+.hero-content {
+  padding: 32px 24px 48px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.hero-label,
+.section-label {
+  margin-bottom: 14px;
+
+  color: #999;
+
+  font-size: 14px;
+  font-weight: 400;
+
+  letter-spacing: 0.25em;
+}
+
+
+.hero h1 {
+  margin-bottom: 20px;
+
+  font-size: clamp(52px, 16vw, 80px);
+  font-weight: 300;
+  line-height: 0.92;
+  letter-spacing: 0.04em;
+}
+
+
+.hero-description {
+  margin-bottom: 28px;
+
+  color: #aaa;
+
+  font-size: 14px;
+  line-height: 2;
+}
+
+
+/* ========================================
+   Buttons
+======================================== */
+.primary-button {
+  position: relative;
+  min-width: 170px;
+  height: 48px;
+  padding: 0 24px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #f5f5f5;
+  color: #0a0a0a;
+
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-decoration: none;
+
+  overflow: hidden;
+  z-index: 1;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+  /* スマホタップ時の青/灰色枠を防止 */
+
+  /* 文字色・スケール（沈み込み）の変化を滑らかに設定 */
+  transition: color 1.1s cubic-bezier(0.05, 0.85, 0.1, 1),
+    transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* 青色の背景層（スライド塗りつぶし） */
+.primary-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #0066ff;
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 1.1s cubic-bezier(0.05, 0.85, 0.1, 1);
+}
+
+/* ホバー時・タップ時の青色スライド */
+.primary-button:hover::before,
+.primary-button:active::before {
+  transform: scaleX(1);
+}
+
+.primary-button:hover,
+.primary-button:active {
+  color: #ffffff;
+}
+
+/* ----------------------------------------
+   タップ（押し込み）瞬間の沈み込みアニメーション
+---------------------------------------- */
+
+.primary-button:active {
+  transform: scale(0.95);
+  /* 指で押した瞬間に全体がキュッと凹む */
+}
+
+
+/* ========================================
+   Brand Section
+======================================== */
+
+.brand-section {
+  position: relative;
+  min-height: 650px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+/* 写真 */
+
+.brand-image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.brand-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+
+/* 写真を暗くする */
+
+.brand-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+
+/* テキスト */
+
+.brand-content {
+  position: relative;
+  z-index: 1;
+  padding: 80px 24px;
+  color: #fff;
+  max-width: 420px;
+}
+
+.brand-content .section-label {
+  margin-bottom: 24px;
+}
+
+.brand-content h2 {
+  font-size: 30px;
+  line-height: 1.6;
+  font-weight: 400;
+  margin-bottom: 28px;
+}
+
+.brand-content .section-text {
+  font-size: 14px;
+  line-height: 2.2;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.brand-section h2,
+.features-section h2,
+.product-cta h2 {
+  margin-bottom: 28px;
+
+  font-size: 32px;
+  font-weight: 300;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+}
+
+.section-text {
+  max-width: 330px;
+
+  color: #999;
+
+  font-size: 14px;
+  line-height: 2;
+}
+
+
+/* ========================================
+   Featured Product
+======================================== */
+
+.featured-section {
+  padding: 100px 24px;
+}
+
+
+/* Heading */
+
+.section-heading {
+  margin-bottom: 30px;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.section-heading h2 {
+  font-size: 28px;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+}
+
+.section-heading .section-label {
+  margin-bottom: 8px;
+}
+
+.product-price {
+  font-size: 14px;
+  color: #aaa;
+}
+
+
+/* Image */
+
+.featured-image {
+  margin-bottom: 32px;
+
+  background-color: #151515;
+}
+
+.featured-image img {
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+
+/* Content */
+
+.featured-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.product-copy {
+  margin-bottom: 20px;
+
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 1.35;
+  letter-spacing: 0.03em;
+}
+
+
+/* Text Link */
+
+.text-link {
+  position: relative;
+  margin-top: 28px;
+  padding: 8px 0;
+  /* スマホでタップしやすいよう上下領域を少し広げる */
+  display: inline-flex;
+  align-items: center;
+
+  font-size: 14px;
+  letter-spacing: 0.15em;
+  color: #f5f5f5;
+  text-decoration: none;
+}
+
+/* 矢印（<span>→</span>）のアニメーション設定 */
+.text-link span {
+  display: inline-block;
+  margin-left: 10px;
+  /* 0.9秒かける超滑らかな移動 */
+  transition: transform 0.9s cubic-bezier(0.08, 0.85, 0.1, 1);
+}
+
+/* 下線（うっすらしたベース線） */
+.text-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* 上に乗る光る白線（左から右へ伸びる） */
+.text-link::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #ffffff;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.9s cubic-bezier(0.08, 0.85, 0.1, 1);
+  z-index: 1;
+}
+
+/* ----------------------------------------
+   演出1：スクロールして視界に入った時（is-visible）
+---------------------------------------- */
+
+/* 画面に入った瞬間、矢印が右へスーッと伸びる */
+.text-link.is-visible span {
+  transform: translateX(6px);
+}
+
+/* 画面に入った瞬間、下線が左から右へぬーっと描かれる */
+.text-link.is-visible::before {
+  transform: scaleX(1);
+}
+
+/* ----------------------------------------
+   演出2：スマホで指でタップした瞬間（:active）
+---------------------------------------- */
+
+/* タップした時に矢印がさらに右へグッと動くフィードバック */
+.text-link:active span {
+  transform: translateX(12px);
+  transition-duration: 0.2s;
+  /* タップ時は素早く反応 */
+}
+
+
+/* ========================================
+   Features
+======================================== */
+
+.features-section {
+  padding: 100px 24px;
+
+  background-color: #111;
+}
+
+
+.feature-list {
+  margin-top: 50px;
+}
+
+
+.feature-item {
+  padding: 28px 0;
+
+  border-top: 1px solid #2d2d2d;
+}
+
+
+.feature-item:last-child {
+  border-bottom: 1px solid #2d2d2d;
+}
+
+
+.feature-number {
+  display: block;
+
+  margin-bottom: 14px;
+
+  color: #666;
+
+  font-size: 14px;
+  letter-spacing: 0.15em;
+}
+
+
+.feature-item h3 {
+  margin-bottom: 10px;
+
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
+
+
+.feature-item p {
+  max-width: 300px;
+
+  color: #888;
+
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(24px);
+  will-change: opacity, transform;
+
+  /* LUNÉブランド特有のゆったりとした強めのイージング */
+  transition: opacity 2.2s cubic-bezier(0.08, 0.85, 0.1, 1),
+    transform 2.2s cubic-bezier(0.08, 0.85, 0.1, 1);
+}
+
+.fade-in-up.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 時間差（ディレイ）の設定 */
+.fade-in-up.delay-1 {
+  transition-delay: 0.15s;
+}
+
+.fade-in-up.delay-2 {
+  transition-delay: 0.3s;
+}
+
+.fade-in-up.delay-3 {
+  transition-delay: 0.45s;
+}
+
+/* ----------------------------------------
+   カード色反転（左から右へのカラーシフト）
+---------------------------------------- */
+
+.feature-card-invert {
+  position: relative;
+  overflow: hidden;
+  padding: 28px 16px;
+  /* 反転領域が見やすいよう左右に少し余白 */
+  border-radius: 4px;
+  z-index: 1;
+}
+
+/* テキスト色の滑らかな移行（反転時に白へ） */
+.feature-card-invert .feature-number,
+.feature-card-invert h3,
+.feature-card-invert p {
+  position: relative;
+  z-index: 2;
+  transition: color 1.2s cubic-bezier(0.08, 0.85, 0.1, 1);
+}
+
+/* 左から右へ反転させる背景レイヤー */
+.feature-card-invert::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #1a1a1a;
+  /* シックな反転背景色 */
+  z-index: 1;
+  transform: scaleX(0);
+  transform-origin: left center;
+  /* 左から右へ伸びる */
+
+  /* 1.4秒かけて左から右に色が反転 */
+  transition: transform 1.4s cubic-bezier(0.08, 0.85, 0.1, 1);
+}
+
+/* 読み終わった後（is-invertedが付与された時）に左から右へ塗りつぶし */
+.feature-card-invert.is-inverted::before {
+  transform: scaleX(1);
+}
+
+/* 色反転時のテキストカラー変更 */
+.feature-card-invert.is-inverted .feature-number {
+  color: #0066ff;
+  /* 番号をアクセントの青に */
+}
+
+.feature-card-invert.is-inverted h3 {
+  color: #ffffff;
+  /* タイトルをくっきりした白に */
+}
+
+.feature-card-invert.is-inverted p {
+  color: #cccccc;
+  /* 説明文を明度の高いグレーに */
+}
+
+/* ========================================
+   Product CTA
+======================================== */
+
+.product-cta {
+  position: relative;
+
+  min-height: 650px;
+
+  background-color: #0a0a0a;
+}
+
+
+.product-cta-image {
+  width: 100%;
+    height: 420px;
+    overflow: hidden;
+    background-color: #0a0a0a;
+}
+
+
+.product-cta-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.25) translateY(20px);
+  filter: brightness(0.7);
+  will-change: transform, filter;
+
+  /* 3.2秒かける重厚で迫力のある「ズーン」とした緩急イージング */
+  transition: transform 3.2s cubic-bezier(0.05, 0.85, 0.1, 1),
+    filter 2.5s cubic-bezier(0.05, 0.85, 0.1, 1);
+}
+
+/* 画面内にスクロールして入った瞬間（is-visible付与時） */
+.product-cta-image.is-visible img {
+  transform: scale(1) translateY(0);
+  /* ズーンと元のサイズ・位置へおさまる */
+  filter: brightness(1);
+  /* 鮮やかにくっきり映し出す */
+}
+
+.product-cta-content {
+  padding: 50px 24px 80px;
+}
+
+
+.product-cta h2 {
+  font-size: 40px;
+  line-height: 1.1;
+}
+
+.product-cta .fade-in-up {
+  opacity: 0;
+  transform: translateY(45px);
+  /* 初期位置を少し深めの45px下に */
+
+  /* 2.6秒かける超ゆったり＆粘り気のある極上の緩急 */
+  transition: opacity 3s cubic-bezier(0.05, 0.85, 0.1, 1),
+    transform 3s cubic-bezier(0.05, 0.85, 0.1, 1);
+  will-change: opacity, transform;
+}
+
+/* 画面内に入って浮き上がる状態 */
+.product-cta .fade-in-up.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ----------------------------------------
+   時間差（ディレイ）の間隔を広げる
+---------------------------------------- */
+
+/* 1. DISCOVER は即時（0秒） */
+
+/* 2. Find your sound. （0.6秒後にゆっくり浮上開始） */
+.product-cta .fade-in-up.delay-1 {
+  transition-delay: 0.6s;
+}
+
+/* 3. 製品を見る ボタン （1.2秒後にゆっくり浮上開始） */
+.product-cta .fade-in-up.delay-2 {
+  transition-delay: 1.0s;
+}
+
+
+/* ========================================
+   Footer
+======================================== */
+
+.footer {
+  padding: 60px 24px 30px;
+
+  border-top: 1px solid #222;
+
+  background-color: #080808;
+}
+
+
+.footer-logo {
+  margin-bottom: 40px;
+
+  font-size: 24px;
+  font-weight: 300;
+
+  letter-spacing: 0.18em;
+}
+
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+
+  gap: 14px;
+}
+
+
+.footer-links a {
+  color: #888;
+
+  font-size: 16px;
+
+  letter-spacing: 0.15em;
+}
+
+
+.copyright {
+  margin-top: 60px;
+
+  color: #555;
+
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+
+/* ========================================
+   Tablet / PC
+======================================== */
+
+@media (min-width: 768px) {
+
+  body {
+    max-width: 480px;
+    margin: 0 auto;
+
+    background-color: #000;
+  }
+
+  .site-header {
+    width: 480px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .hero h1 {
+    font-size: 72px;
+  }
+
+}
+
+/* ========================================
+   Product Page
+======================================== */
+
+
+/* ========================================
+   Product Hero
+======================================== */
+
+.product-hero {
+  padding-top: 64px;
+}
+
+
+/* Product Image */
+
+.product-hero-image {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 商品画像の滑らかなスライド＆フェード切り替え */
+.product-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  transition: opacity 0.8s cubic-bezier(0.08, 0.85, 0.1, 1),
+    transform 0.8s cubic-bezier(0.08, 0.85, 0.1, 1);
+}
+
+.product-img.switching {
+  opacity: 0;
+  transform: scale(0.96) translateY(10px);
+}
+
+/* ----------------------------------------
+   カラー選択（ぬるっと動く外枠）
+---------------------------------------- */
+
+.color-options-wrapper {
+  position: relative;
+  display: inline-block;
+  padding: 4px;
+}
+
+.color-options {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  z-index: 2;
+}
+
+/* 各カラーボタン（枠線はリング側に任せるため消去） */
+.color-button {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none !important;
+  outline: none !important;
+  cursor: pointer;
+  position: relative;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  /* スマホタップ時の背景枠を消去 */
+
+  /* タップ時のスケール（沈み込み）変化を速やかに設定 */
+  transition: transform 0.12s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* ----------------------------------------
+   タップ（押し込み）瞬間の沈み込みアニメーション
+---------------------------------------- */
+
+.color-button:active {
+  transform: scale(0.85) !important;
+  /* 指で押した瞬間にキュッと一瞬小さくなる */
+}
+
+.color-button.black {
+  background-color: #222222;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+
+.color-button.silver {
+  background-color: #8e8e93;
+}
+
+.color-button.white {
+  background-color: #f2f2f7;
+}
+
+/* ぬるっと移動する「白の外枠リング」 */
+.color-active-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  /* 白い外枠（クッキリさせたい場合は #ffffff） */
+  border: 1.5px solid #ffffff;
+  z-index: 1;
+  pointer-events: none;
+
+  /* 0.9秒かける重厚でぬるっとした移動アニメーション */
+  transition: transform 0.9s cubic-bezier(0.08, 0.85, 0.1, 1);
+}
+
+/* ----------------------------------------
+   ADD TO CART ボタンアニメーション
+---------------------------------------- */
+
+.add-cart-button {
+  position: relative;
+  width: 100%;
+  height: 54px;
+  margin-top: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #1a1a1a;
+  color: #ffffff;
+  border: none;
+  font-size: 14px;
+  letter-spacing: 0.18em;
+  font-weight: 500;
+
+  overflow: hidden;
+  cursor: pointer;
+  z-index: 1;
+  -webkit-tap-highlight-color: transparent;
+  /* スマホタップ時のグレー枠を消去 */
+
+  /* 背景色・文字色と、タップ時の沈み込み（transform）の移行設定 */
+  transition: color 1.1s cubic-bezier(0.05, 0.85, 0.1, 1),
+    transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* 青背景スライド（ hover / active 共通 ） */
+.add-cart-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #0066ff;
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 1.1s cubic-bezier(0.05, 0.85, 0.1, 1);
+}
+
+.add-cart-button:hover::before,
+.add-cart-button:active::before {
+  transform: scaleX(1);
+}
+
+/* ----------------------------------------
+   タップ（押し込み）瞬間の沈み込みアニメーション
+---------------------------------------- */
+
+.add-cart-button:active {
+  transform: scale(0.96) !important;
+  /* 押し込んだ瞬間にキュッと沈み込む */
+}
+
+/* ----------------------------------------
+   カートへ飛ぶ光る粒（フライングボール）
+---------------------------------------- */
+
+.flying-ball {
+  position: fixed;
+  width: 16px;
+  height: 16px;
+  background-color: #0066ff;
+  border-radius: 50%;
+  z-index: 9999;
+  pointer-events: none;
+  box-shadow: 0 0 12px rgba(0, 102, 255, 0.8);
+  /* 飛んでいくアニメーション */
+  transition: transform 0.9s cubic-bezier(0.12, 0.78, 0.28, 1),
+    opacity 0.9s ease,
+    scale 0.9s ease;
+}
+
+/* Product Information */
+
+.product-hero-info {
+  padding: 40px 24px 70px;
+}
+
+
+.product-hero-info h1 {
+  margin-bottom: 10px;
+
+  font-size: 38px;
+  font-weight: 300;
+
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+}
+
+
+.product-hero-price {
+  margin-bottom: 28px;
+
+  color: #aaa;
+
+  font-size: 14px;
+}
+
+
+.product-hero-description {
+  max-width: 320px;
+
+  margin-bottom: 40px;
+
+  color: #999;
+
+  font-size: 12px;
+  line-height: 2;
+}
+
+
+/* ========================================
+   Product Option
+======================================== */
+
+.product-option {
+  margin-bottom: 30px;
+}
+
+
+.option-label {
+  margin-bottom: 12px;
+
+  color: #777;
+
+  font-size: 14px;
+
+  letter-spacing: 0.15em;
+}
+
+
+.color-options {
+  display: flex;
+
+  gap: 12px;
+}
+
+
+.color-button {
+  width: 30px;
+  height: 30px;
+
+  border-radius: 50%;
+
+  border: 1px solid #444;
+
+  cursor: pointer;
+}
+
+
+.color-button.active {
+  outline: 1px solid #f5f5f5;
+  outline-offset: 4px;
+}
+
+
+.color-button.black {
+  background-color: #111;
+}
+
+
+.color-button.silver {
+  background-color: #999;
+}
+
+
+.color-button.white {
+  background-color: #eee;
+}
+
+
+/* ========================================
+   Add Cart Button
+======================================== */
+
+.add-cart-button {
+  width: 100%;
+  height: 54px;
+
+  border: none;
+
+  background-color: #f5f5f5;
+
+  color: #0a0a0a;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  letter-spacing: 0.18em;
+
+  cursor: pointer;
+}
+
+
+/* ========================================
+   Purchase Information
+======================================== */
+
+.purchase-information {
+  margin-top: 25px;
+
+  border-top: 1px solid #292929;
+}
+
+
+.purchase-information-item {
+  padding: 16px 0;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  border-bottom: 1px solid #292929;
+}
+
+
+.purchase-information-item span {
+  color: #666;
+
+  font-size: 14px;
+
+  letter-spacing: 0.12em;
+}
+
+
+.purchase-information-item p {
+  color: #888;
+
+  font-size: 14px;
+
+  text-align: right;
+}
+
+
+/* ========================================
+   Product Story
+======================================== */
+
+.product-story {
+  padding: 100px 24px;
+
+  background-color: #111;
+}
+
+
+.product-story h2 {
+  margin-bottom: 30px;
+
+  font-size: 36px;
+  font-weight: 300;
+
+  line-height: 1.15;
+
+  letter-spacing: 0.02em;
+}
+
+
+/* ========================================
+   Large Image
+======================================== */
+
+.product-large-image {
+  width: 100%;
+
+  background-color: #151515;
+}
+
+
+.product-large-image img {
+  width: 100%;
+
+  aspect-ratio: 4 / 5;
+
+  object-fit: cover;
+}
+
+
+/* ========================================
+   Product Features
+======================================== */
+
+.product-features {
+  padding: 100px 24px;
+}
+
+
+.product-feature {
+  margin-top: 60px;
+}
+
+
+.feature-image {
+  margin-bottom: 24px;
+
+  overflow: hidden;
+
+  background-color: #151515;
+}
+
+
+.feature-image img {
+  width: 100%;
+
+  aspect-ratio: 1 / 1;
+
+  object-fit: cover;
+}
+
+
+.feature-content>span {
+  display: block;
+
+  margin-bottom: 12px;
+
+  color: #666;
+
+  font-size: 14px;
+
+  letter-spacing: 0.15em;
+}
+
+
+.feature-content h2 {
+  margin-bottom: 14px;
+
+  font-size: 24px;
+
+  font-weight: 300;
+
+  letter-spacing: 0.03em;
+}
+
+
+.feature-content p {
+  max-width: 320px;
+
+  color: #888;
+
+  font-size: 14px;
+
+  line-height: 2;
+}
+
+
+/* ========================================
+   Specifications
+======================================== */
+
+.spec-section {
+  padding: 100px 24px;
+
+  background-color: #111;
+}
+
+
+.spec-section h2 {
+  margin-bottom: 40px;
+
+  font-size: 32px;
+
+  font-weight: 300;
+}
+
+
+.spec-list {
+  border-top: 1px solid #2c2c2c;
+}
+
+
+.spec-item {
+  padding: 18px 0;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  border-bottom: 1px solid #2c2c2c;
+}
+
+
+.spec-item span {
+  color: #666;
+
+  font-size: 14px;
+}
+
+
+.spec-item p {
+  max-width: 190px;
+
+  color: #aaa;
+
+  font-size: 14px;
+
+  text-align: right;
+}
+
+
+/* ========================================
+   Final Purchase
+======================================== */
+
+.product-final {
+  padding: 110px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+
+.product-final h2 {
+  margin-bottom: 20px;
+
+  font-size: 36px;
+
+  font-weight: 300;
+
+  line-height: 1.2;
+}
+
+
+.final-price {
+  margin-bottom: 30px;
+
+  color: #aaa;
+
+  font-size: 14px;
+}
+
+
+.product-final .add-cart-button {
+  max-width: 330px;
+}
+
+/* ======================================== Cart Page ======================================== */
+/* ======================================== Cart Header ======================================== */
+.cart-header {
+  padding: 140px 24px 60px;
+}
+
+.cart-header h1 {
+  font-size: 42px;
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+}
+
+/* ======================================== Cart Section ======================================== */
+.cart-section {
+  padding: 0 24px 80px;
+}
+
+/* ======================================== Cart Item ======================================== */
+.cart-item {
+  padding: 20px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  /* ギャップを少し詰める */
+  border-top: 1px solid #292929;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cart-item:last-child {
+  border-bottom: 1px solid #292929;
+}
+
+/* 画像エリア（横幅をしっかり固定して潰れないように） */
+.cart-item img {
+  width: 80px;
+  /* スマホ用にコンパクトな固定幅へ調整 */
+  height: 80px;
+  object-fit: contain;
+  background-color: #151515;
+  border-radius: 4px;
+  flex-shrink: 0;
+  /* 画像が押しつぶされるのを防ぐ */
+}
+
+/* 情報エリア（残りの幅をすべて使用し、はみ出しを防ぐ） */
+.cart-item-info {
+  flex: 1;
+  min-width: 0;
+  /* flex要素内での文字・要素あふれ防止 */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cart-item-info h3 {
+  font-size: 15px;
+  font-weight: 400;
+  color: #ffffff;
+  margin: 0;
+  word-break: break-word;
+  /* 長いテキストの改行 */
+}
+
+.cart-item-info p {
+  font-size: 13px;
+  color: #aaa;
+  margin: 0;
+}
+
+/* 数量コントロールエリア */
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.quantity-button {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #333;
+  background: transparent;
+  color: #fff;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 2px;
+  padding: 0;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+
+  /* タップ時のなめらかな沈み込み設定 */
+  transition: transform 0.1s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+/* 押し込んだ（タップした）瞬間 */
+.quantity-button:active {
+  transform: scale(0.88);
+  /* ぐっと小さく凹む */
+  background-color: rgba(255, 255, 255, 0.15);
+  /* ほんのり明るく光る */
+  border-color: #666;
+}
+
+
+/* 取消（REMOVE）ボタンのタップアニメーション */
+.remove-button {
+  align-self: flex-start;
+  margin-top: 6px;
+  padding: 2px 0;
+  border: none;
+  background: transparent;
+  color: #666;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  /* タップ時のフィードバック設定 */
+  transition: transform 0.1s ease, color 0.2s ease;
+}
+
+/* 押し込んだ（タップした）瞬間 */
+.remove-button:active {
+  transform: scale(0.92);
+  /* 軽やかに凹む */
+  color: #ff4d4d;
+  /* タップした瞬間に警告の赤色へ */
+}
+
+
+
+/* ======================================== Cart Summary ======================================== */
+.cart-summary {
+  margin-top: 50px;
+}
+
+.summary-row {
+  padding: 15px 0;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #222;
+  color: #777;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+}
+
+.summary-total {
+  padding: 22px 0;
+  display: flex;
+  justify-content: space-between;
+  color: #f5f5f5;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+}
+
+.checkout-button {
+  width: 100%;
+  height: 54px;
+  margin-top: 24px;
+  border: none;
+  background-color: #ffd700;
+  /* 高級感のあるイエロー */
+  color: #0a0a0a;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+
+  /* タップ時の沈み込みアニメーション設定 */
+  transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.15);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* タップ（押し込み）瞬間のアニメーション */
+.checkout-button:active {
+  transform: scale(0.96);
+  /* 少し沈む */
+  background-color: #e6c200;
+  /* ほんの少し濃い黄色へ */
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.1);
+}
+
+
+/* ========================================
+   Survey Modal Styles
+======================================== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  /* 背景ぼかし */
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+
+  /* アニメーション用 */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s cubic-bezier(0.08, 0.85, 0.1, 1),
+    visibility 0.4s;
+}
+
+.modal-overlay.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  background: #141414;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 40px 28px 32px;
+  text-align: center;
+  border-radius: 4px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+
+  /* ポップアップ時のスライド＆拡大アニメーション */
+  transform: scale(0.92) translateY(10px);
+  transition: transform 0.4s cubic-bezier(0.08, 0.85, 0.1, 1);
+}
+
+.modal-overlay.is-active .modal-content {
+  transform: scale(1) translateY(0);
+}
+
+/* 閉じるボタン */
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.2s ease;
+}
+
+.modal-close:hover {
+  color: #fff;
+}
+
+.modal-label {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: #888;
+  margin-bottom: 12px;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 400;
+  color: #ffffff;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.modal-text {
+  font-size: 13px;
+  color: #aaa;
+  line-height: 1.8;
+  margin-bottom: 28px;
+}
+
+/* モーダル内のアンケートボタン */
+.modal-survey-button {
+  display: block;
+  width: 100%;
+  height: 48px;
+  line-height: 48px;
+  background: #ffffff;
+  color: #0a0a0a;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.modal-survey-button:active {
+  transform: scale(0.98);
+  background-color: #e0e0e0;
+}
+
+/* ======================================== Cart Information ======================================== */
+.cart-information {
+  padding: 70px 24px;
+  background-color: #111;
+}
+
+.cart-information-item {
+  padding: 20px 0;
+  border-top: 1px solid #292929;
+}
+
+.cart-information-item:last-child {
+  border-bottom: 1px solid #292929;
+}
+
+.cart-information-item span {
+  display: block;
+  margin-bottom: 8px;
+  color: #666;
+  font-size: 14px;
+  letter-spacing: 0.15em;
+}
+
+.cart-information-item p {
+  color: #888;
+  font-size: 10px;
+  line-height: 1.8;
+}
+
+/* ==================================================
+   PRODUCTS PAGE
+================================================== */
+
+
+/* ==============================
+   Products Header
+============================== */
+
+.products-header {
+  padding: 120px 24px 70px;
+  text-align: center;
+  background: #0a0a0a;
+}
+
+.products-header .section-label {
+  margin-bottom: 20px;
+}
+
+.products-header h1 {
+  margin: 0 0 24px;
+
+  font-family: "Inter", sans-serif;
+  font-size: 38px;
+  font-weight: 300;
+  letter-spacing: 0.12em;
+
+  color: #ffffff;
+}
+
+.products-header .section-text {
+  max-width: 320px;
+  margin: 0 auto;
+
+  font-size: 14px;
+  line-height: 2;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+
+/* ==============================
+   Product List
+============================== */
+
+.products-section {
+  padding: 0 20px 100px;
+  background: #0a0a0a;
+}
+
+
+.product-card {
+  margin-bottom: 40px;
+  -webkit-tap-highlight-color: transparent;
+  /* スマホ特有の青い四角枠を消去 */
+}
+
+.product-card a {
+  display: block;
+  background: #121212;
+  /* 薄い背景で押し込めるカード感を出す */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 16px;
+  text-decoration: none;
+  color: inherit;
+
+  /* タップした瞬間のレスポンス設定 */
+  transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+/* 右下の価格と矢印のレイアウト */
+.product-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-top: 16px;
+}
+
+.product-card-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-arrow {
+  font-size: 14px;
+  color: #0066ff;
+  /* ブランドカラーのアクセント青 */
+  transition: transform 0.3s ease;
+}
+
+/* スマホで指を乗せた（タップした）瞬間の圧倒的な操作フィードバック */
+.product-card a:active {
+  transform: scale(0.96) !important;
+  background-color: #1a1a1a;
+  border-color: rgba(0, 102, 255, 0.4);
+  /* 押した瞬間に枠が青く発光 */
+}
+
+.product-card a:active .card-arrow {
+  transform: translateX(4px);
+  /* 矢印が右へ動く */
+}
+
+/* 画像エリアの微妙なスケールフィードバック（オプション） */
+.product-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #151515;
+  border-radius: 4px;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.08, 0.85, 0.1, 1);
+}
+
+.product-card a:hover .product-image img {
+  transform: scale(1.03);
+  /* PCホバー時に写真がじんわり拡大 */
+}
+
+/* ==============================
+   Product Image
+============================== */
+
+.product-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+
+  overflow: hidden;
+
+  background: #151515;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+}
+
+
+/* ==============================
+   Product Information
+============================== */
+
+.product-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 20px;
+
+  padding-top: 20px;
+}
+
+
+/* 商品名 */
+
+.product-info h2 {
+  margin: 0 0 8px;
+
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+
+  color: #ffffff;
+}
+
+
+/* 商品の簡単な説明 */
+
+.product-info p {
+  margin: 0;
+
+  font-size: 14px;
+  line-height: 1.7;
+
+  color: rgba(255, 255, 255, 0.55);
+}
+
+
+/* ==============================
+   Product Price
+============================== */
+
+.product-info .product-card-price {
+  flex-shrink: 0;
+
+  padding-top: 2px;
+
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+
+  color: #ffffff;
+}
+
+
+/* ==============================
+   Collection Information
+============================== */
+
+.products-information {
+  padding: 100px 24px;
+
+  text-align: center;
+
+  background: #111111;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.products-information .section-label {
+  margin-bottom: 24px;
+}
+
+.products-information h2 {
+  margin: 0 0 24px;
+
+  font-family: "Inter", sans-serif;
+  font-size: 28px;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+
+  color: #ffffff;
+}
+
+.products-information .section-text {
+  max-width: 320px;
+  margin: 0 auto;
+
+  font-size: 14px;
+  line-height: 2;
+
+  color: rgba(255, 255, 255, 0.6);
+}
+
+
+/* ==============================
+   Section Label
+============================== */
+
+.section-label {
+  font-family: "Inter", sans-serif;
+
+  font-size: 10px;
+  font-weight: 400;
+
+  letter-spacing: 0.2em;
+
+  color: rgba(255, 255, 255, 0.45);
+}
+
+
+/* ==============================
+   Mobile
+============================== */
+
+@media (max-width: 480px) {
+
+  .products-header {
+    padding-top: 110px;
+    padding-bottom: 60px;
+  }
+
+  .products-header h1 {
+    font-size: 34px;
+  }
+
+  .products-section {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .product-card {
+    margin-bottom: 60px;
+  }
+
+  .product-info h2 {
+    font-size: 18px;
+  }
+
+  .product-info p {
+    font-size: 14px;
+  }
+
+  .product-info .product-card-price {
+    font-size: 14px;
+  }
+
+  .products-information {
+    padding: 80px 24px;
+  }
+
+}

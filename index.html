@@ -1,0 +1,411 @@
+```html
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+
+  <!-- スマートフォン表示用 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>LUNÉ | Premium Headphones</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500&display=swap"
+    rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- =========================
+         Header
+    ========================== -->
+  <header class="site-header">
+
+    <!-- 左：ロゴ -->
+    <a href="index.html" class="logo">
+      LUNÉ
+    </a>
+
+    <!-- 右：3つのアイコン -->
+    <div class="header-icons">
+
+      <!-- 検索 -->
+      <button class="header-icon" id="search-toggle" type="button" aria-label="検索">
+        <svg class="humbleicons hi-search" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+          viewBox="0 0 24 24">
+          <g stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" d="m20 20-6-6" />
+            <path d="M15 9.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0Z" />
+          </g>
+        </svg>
+      </button>
+
+      <!-- カート -->
+      <a href="cart.html" class="header-icon cart-icon" aria-label="カート">
+        <svg class="humbleicons hi-cart" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+          viewBox="0 0 24 24">
+          <circle cx="7.5" cy="18.5" r="1.5" fill="currentColor" />
+          <circle cx="16.5" cy="18.5" r="1.5" fill="currentColor" />
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M3 5h2l.6 3m0 0L7 15h10l2-7H5.6z" />
+        </svg>
+        <span class="cart-count">0</span>
+      </a>
+
+      <!-- ハンバーガーメニュー -->
+      <button class="header-icon" id="menu-toggle" type="button" aria-label="メニューを開く" aria-expanded="false">
+        <svg class="humbleicons hi-bars" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+          viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+
+    </div>
+  </header>
+
+  <!-- =========================
+        Nav Overlay Menu
+    ========================== -->
+  <div class="nav-overlay" id="nav-overlay" aria-hidden="true">
+    <!-- 閉じるボタン -->
+    <button class="nav-close" id="menu-close" type="button" aria-label="メニューを閉じる">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24"
+        stroke="currentColor" stroke-width="1.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <div class="nav-container">
+
+      <!-- メニューリスト -->
+      <ul class="nav-list">
+        <li class="nav-item-wrap">
+          <a href="products.html" class="nav-link">
+            <span>PRODUCTS</span>
+          </a>
+        </li>
+        <li class="nav-item-wrap">
+          <a href="#" class="nav-link">
+            <span>SPECIAL</span>
+          </a>
+        </li>
+        <li class="nav-item-wrap">
+          <a href="#" class="nav-link">ABOUT</a>
+        </li>
+        <li class="nav-item-wrap">
+          <a href="#" class="nav-link">NEWS</a>
+        </li>
+        <li class="nav-item-wrap">
+          <a href="#" class="nav-link">final LAB</a>
+        </li>
+        <li class="nav-item-wrap">
+          <a href="#" class="nav-link">SUPPORT</a>
+        </li>
+        <li class="nav-item-wrap">
+          <a href="#" class="nav-link">RECRUIT</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- =========================
+             Hero
+        ========================== -->
+    <section class="hero">
+
+      <div class="hero-image">
+        <!-- カルーセル画像 5枚 -->
+        <div class="carousel-slide active">
+          <img src="img/hero-headphone-1.png" alt="LUNÉ Premium Headphone 1">
+        </div>
+        <div class="carousel-slide">
+          <img src="img/hero-headphone-2.png" alt="LUNÉ Premium Headphone 2">
+        </div>
+        <div class="carousel-slide">
+          <img src="img/hero-headphone-3.png" alt="LUNÉ Premium Headphone 3">
+        </div>
+        <div class="carousel-slide">
+          <img src="img/hero-headphone-4.png" alt="LUNÉ Premium Headphone 4">
+        </div>
+        <div class="carousel-slide">
+          <img src="img/hero-headphone-5.png" alt="LUNÉ Premium Headphone 5">
+        </div>
+
+        <!-- 右下のドットインジケーター（・・・・・） -->
+        <div class="carousel-dots">
+          <button class="dot active" type="button" aria-label="スライド1を表示"></button>
+          <button class="dot" type="button" aria-label="スライド2を表示"></button>
+          <button class="dot" type="button" aria-label="スライド3を表示"></button>
+          <button class="dot" type="button" aria-label="スライド4を表示"></button>
+          <button class="dot" type="button" aria-label="スライド5を表示"></button>
+        </div>
+      </div>
+
+      <div class="hero-content">
+
+        <p class="hero-label">
+          PREMIUM AUDIO
+        </p>
+
+        <h1>
+          PURE<br>
+          SOUND.
+        </h1>
+
+        <p class="hero-description">
+          音楽を、もっと純粋に。<br>
+          余計なものを削ぎ落とした、<br>
+          新しい音の体験。
+        </p>
+
+        <a href="product.html" class="primary-button">
+          製品を見る
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+             Brand Introduction
+        ========================== -->
+    <section class="brand-section">
+
+      <div class="brand-image">
+        <img src="img/brand-lifestyle.png" alt="LUNÉのヘッドホンで音楽を楽しむ女性">
+      </div>
+
+      <!-- fade-in-up クラスを追加 -->
+      <div class="brand-content fade-in-up">
+
+        <p class="section-label">
+          ABOUT LUNÉ
+        </p>
+
+        <h2>
+          音楽と向き合うための、<br>
+          静かなデザイン。
+        </h2>
+
+        <p class="section-text">
+          LUNÉは、音楽そのものに集中できる
+          オーディオ体験を追求するブランドです。
+          美しさと機能性を両立した、
+          ミニマルなプロダクトを提供します。
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+             Featured Product
+        ========================== -->
+    <section class="featured-section">
+
+      <div class="section-heading">
+
+        <div>
+          <p class="section-label">
+            FEATURED
+          </p>
+
+          <h2>
+            LUNÉ ONE
+          </h2>
+        </div>
+
+        <p class="product-price">
+          ¥--,---
+        </p>
+
+      </div>
+
+
+      <div class="featured-image">
+
+        <img src="img/headphone-black.png" alt="LUNÉ ONE">
+
+      </div>
+
+
+      <div class="featured-content">
+
+        <p class="product-copy">
+          Pure sound.<br>
+          Pure experience.
+        </p>
+
+        <p class="section-text">
+          音の細部まで忠実に再現する
+          LUNÉのフラッグシップモデル。
+          シンプルで洗練されたデザインと、
+          高品質なサウンドを融合しました。
+        </p>
+
+        <a href="product.html" class="text-link fade-in-up">
+          詳細を見る
+          <span>→</span>
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+             Features
+        ========================== -->
+    <section class="features-section">
+
+      <p class="section-label">
+        FEATURES
+      </p>
+
+      <h2>
+        Designed for<br>
+        listening.
+      </h2>
+
+
+      <div class="feature-list">
+
+        <!-- 01 -->
+        <article class="feature-item fade-in-up feature-card-invert">
+          <span class="feature-number">
+            01
+          </span>
+          <h3>
+            Pure Sound
+          </h3>
+          <p>
+            音源本来の表現を
+            忠実に再現するサウンド。
+          </p>
+        </article>
+
+
+        <!-- 02 -->
+        <article class="feature-item fade-in-up delay-1 feature-card-invert">
+          <span class="feature-number">
+            02
+          </span>
+          <h3>
+            Minimal Design
+          </h3>
+          <p>
+            無駄を削ぎ落とした
+            洗練されたプロダクトデザイン。
+          </p>
+        </article>
+
+
+        <!-- 03 -->
+        <article class="feature-item fade-in-up delay-2 feature-card-invert">
+          <span class="feature-number">
+            03
+          </span>
+          <h3>
+            Long Listening
+          </h3>
+          <p>
+            長時間の音楽体験を
+            支える快適な装着感。
+          </p>
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+             Product CTA
+        ========================== -->
+    <section class="product-cta">
+
+      <div class="product-cta-image fade-in-up">
+        <img src="img/headphone-detail.png" alt="LUNÉ headphone">
+      </div>
+      
+      <div class="product-cta-content">
+      
+        <!-- 1. DISCOVER （最初に浮上） -->
+        <p class="section-label fade-in-up">
+          DISCOVER
+        </p>
+      
+        <!-- 2. Find your sound. （0.6秒遅れて浮上） -->
+        <h2 class="fade-in-up delay-1">
+          Find your<br>
+          sound.
+        </h2>
+      
+        <!-- 3. VIEW PRODUCTS ボタン （1.2秒遅れて浮上） -->
+        <div class="fade-in-up delay-2">
+          <a href="products.html" class="primary-button">
+            製品を見る
+          </a>
+        </div>
+      
+      </div>
+      
+      </section>
+
+  </main>
+
+
+  <!-- =========================
+         Footer
+    ========================== -->
+  <footer class="footer">
+
+    <div class="footer-logo">
+      LUNÉ
+    </div>
+
+    <div class="footer-links">
+
+      <a href="products.html">
+        PRODUCTS
+      </a>
+
+      <a href="#">
+        ABOUT
+      </a>
+
+      <a href="#">
+        CONTACT
+      </a>
+
+      <a href="#">
+        PRIVACY POLICY
+      </a>
+
+    </div>
+
+    <p class="copyright">
+      © 2026 LUNÉ. All Rights Reserved.
+    </p>
+
+  </footer>
+
+
+  <!-- JavaScript -->
+  <script src="script.js"></script>
+
+</body>
+
+</html>
