@@ -343,7 +343,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // 1. カートデータの保存処理
             const activeColorBtn = document.querySelector(".color-button.active");
             const selectedColor = activeColorBtn ? activeColorBtn.dataset.name : "Black";
-            const selectedImg = activeColorBtn ? activeColorBtn.dataset.img : "img/headphone-black.png";
+            const selectedImg = activeColorBtn ? activeColorBtn.dataset.img : "img/headphone-black.webp";
 
             const productData = {
                 id: "lune-one",
