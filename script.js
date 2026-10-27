@@ -163,8 +163,18 @@ function displayCart() {
     if (cart.length === 0) {
         cartItemsContainer.innerHTML = `
             <div class="empty-cart">
-                <p>カートに商品がありません。</p>
-                <a href="products.html">PRODUCTSを見る</a>
+                <div class="empty-cart-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+                        <circle cx="7.5" cy="18.5" r="1.5" />
+                        <circle cx="16.5" cy="18.5" r="1.5" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 5h2l.6 3m0 0L7 15h10l2-7H5.6z" />
+                    </svg>
+                </div>
+                <h2>カートに商品がありません</h2>
+                <p class="empty-cart-text">お気に入りの商品を見つけて、<br>あなただけの音を見つけましょう。</p>
+                <a href="products.html" class="primary-button empty-cart-btn">
+                    PRODUCTSを見る
+                </a>
             </div>
         `;
         updateCartSummary();
@@ -358,16 +368,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 ball.style.opacity = "0.1";
             });
 
-            // 6. 到着後の跳ね演出（ページ遷移なし）
+            // 6. 到着後の跳ね＆横揺れ演出（クラス着脱方式）
             setTimeout(() => {
                 ball.remove();
 
-                cartIcon.style.transition = "transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
-                cartIcon.style.transform = "scale(1.25)";
+                // 連続タップ時にアニメーションを最初から再再生させる処理
+                cartIcon.classList.remove("cart-icon-bounce");
+                void cartIcon.offsetWidth; // リフローを発生させてアニメーションをリセット
 
+                // 横揺れアニメーションクラスを付与
+                cartIcon.classList.add("cart-icon-bounce");
+
+                // アニメーション完了後（0.6秒後）にクラスを削除
                 setTimeout(() => {
-                    cartIcon.style.transform = "scale(1)";
-                }, 250);
+                    cartIcon.classList.remove("cart-icon-bounce");
+                }, 600);
 
             }, 900);
         });
@@ -412,6 +427,46 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+});
+
+// ==============================
+// ページ開閉時のふわっとフェード制御 & ロゴ遷移
+// ==============================
+
+// A. ページ読み込み時：画面をふわっとフェードイン表示
+document.addEventListener("DOMContentLoaded", () => {
+    // DOM構築完了後にクラスを付与してフェードイン
+    requestAnimationFrame(() => {
+        document.body.classList.add("is-loaded");
+    });
+
+    // B. ロゴ（.logo）クリック時：ふわっとフェードアウトしてから遷移
+    const logoLinks = document.querySelectorAll(".logo");
+
+    logoLinks.forEach((logo) => {
+        logo.addEventListener("click", (e) => {
+            const targetUrl = logo.getAttribute("href");
+
+            if (targetUrl && !targetUrl.startsWith("#")) {
+                e.preventDefault(); // 即時遷移を防止
+
+                // フェードアウトクラスを付与
+                document.body.classList.remove("is-loaded");
+                document.body.classList.add("page-fade-out");
+
+                // アニメーション完了（0.4秒後）にページ遷移
+                setTimeout(() => {
+                    window.location.href = targetUrl;
+                }, 400);
+            }
+        });
+    });
+});
+
+// C. スマホの「戻る」ボタンで復帰した際もふわっとフェードイン
+window.addEventListener("pageshow", () => {
+    document.body.classList.remove("page-fade-out");
+    document.body.classList.add("is-loaded");
 });
 
 // ==============================
