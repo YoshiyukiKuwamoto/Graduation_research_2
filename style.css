@@ -1632,10 +1632,26 @@ h2,
   border-top: 1px solid #292929;
   width: 100%;
   box-sizing: border-box;
+  transition: opacity 0.4s ease, transform 0.4s ease, max-height 0.4s ease, padding 0.4s ease, margin 0.4s ease;
+  max-height: 200px;
+  /* アニメーション用の高さ上限目安 */
+  opacity: 1;
+  overflow: hidden;
 }
 
 .cart-item:last-child {
   border-bottom: 1px solid #292929;
+}
+
+.cart-item.fade-out {
+  opacity: 0;
+  transform: translateY(-10px) scale(0.95);
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  border: none;
 }
 
 /* 画像エリア（横幅をしっかり固定して潰れないように） */

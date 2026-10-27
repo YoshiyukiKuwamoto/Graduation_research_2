@@ -181,22 +181,21 @@ function displayCart() {
         return;
     }
 
-    // 各アイテムの価格表示を ¥--,--- に統一
-    // ※ color が無い古いデータにも対応するため (item.color || 'Black') を渡します
+    // 各要素の特定用に data-id, data-color を付与、buttonに event を渡すよう変更
     cartItemsContainer.innerHTML = cart.map(item => {
         const itemColor = item.color || "Black";
         return `
-            <div class="cart-item">
+            <div class="cart-item" data-id="${item.id}" data-color="${itemColor}">
                 <img src="${item.image}" alt="${item.name}">
                 <div class="cart-item-info">
                     <h3>${item.name} (${itemColor})</h3>
                     <p>¥--,---</p>
                     <div class="quantity-control">
-                        <button class="quantity-button" type="button" onclick="changeQuantity('${item.id}', '${itemColor}', -1)">−</button>
+                        <button class="quantity-button" type="button" onclick="changeQuantity('${item.id}', '${itemColor}', -1, event)">−</button>
                         <span>${item.quantity}</span>
-                        <button class="quantity-button" type="button" onclick="changeQuantity('${item.id}', '${itemColor}', 1)">+</button>
+                        <button class="quantity-button" type="button" onclick="changeQuantity('${item.id}', '${itemColor}', 1, event)">+</button>
                     </div>
-                    <button class="remove-button" type="button" onclick="removeFromCart('${item.id}', '${itemColor}')">取消</button>
+                    <button class="remove-button" type="button" onclick="removeFromCart('${item.id}', '${itemColor}', event)">取消</button>
                 </div>
             </div>
         `;
@@ -205,9 +204,8 @@ function displayCart() {
     updateCartSummary();
 }
 
-function changeQuantity(productId, color, amount) {
+function changeQuantity(productId, color, amount, event) {
     const cart = getCart();
-    // colorの揺らぎ（undefinedや'Black'）に対応した比較判定
     const targetColor = color || "Black";
     const product = cart.find(item => item.id === productId && (item.color || "Black") === targetColor);
 
@@ -215,9 +213,9 @@ function changeQuantity(productId, color, amount) {
 
     product.quantity += amount;
 
-    // 数量が 0 以下になった場合は削除処理を呼び出す
+    // 数量が 0 以下になった場合はアニメーション付き削除処理へ渡す
     if (product.quantity <= 0) {
-        removeFromCart(productId, targetColor);
+        removeFromCart(productId, targetColor, event);
         return;
     } else {
         saveCart(cart);
@@ -227,19 +225,37 @@ function changeQuantity(productId, color, amount) {
     updateCartCount();
 }
 
-function removeFromCart(productId, color) {
+function removeFromCart(productId, color, event) {
     const cart = getCart();
     const targetColor = color || "Black";
 
-    // 対象のIDおよびカラー（未定義の場合は'Black'扱い）と一致する商品を確実に除外
-    const updatedCart = cart.filter(item => {
-        const itemColor = item.color || "Black";
-        return !(item.id === productId && itemColor === targetColor);
-    });
+    // 押されたボタンの親要素（.cart-item）を取得、見つからなければ属性検索
+    let itemElement = null;
+    if (event && event.target) {
+        itemElement = event.target.closest(".cart-item");
+    }
+    if (!itemElement) {
+        itemElement = document.querySelector(`.cart-item[data-id="${productId}"][data-color="${targetColor}"]`);
+    }
 
-    saveCart(updatedCart);
-    displayCart();
-    updateCartCount();
+    const executeDelete = () => {
+        const updatedCart = cart.filter(item => {
+            const itemColor = item.color || "Black";
+            return !(item.id === productId && itemColor === targetColor);
+        });
+
+        saveCart(updatedCart);
+        displayCart();
+        updateCartCount();
+    };
+
+    // 要素が存在すればクラスを付与し、アニメーション（400ms）完了後にDOMから削除
+    if (itemElement) {
+        itemElement.classList.add("fade-out");
+        setTimeout(executeDelete, 400);
+    } else {
+        executeDelete();
+    }
 }
 
 function updateCartSummary() {
