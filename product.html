@@ -380,24 +380,82 @@
 
         </section>
 
-
-
-        <!-- =========================
-             Final Purchase
-        ========================== -->
-
-        <section class="product-final">
-
-            <button class="add-cart-button" type="button">
-                カートに入れる
-            </button>
-
-        </section>
-
-
     </main>
 
-
+    <!-- ==============================
+        Sticky Cart Button
+    ============================== -->
+    
+    <div class="sticky-cart-bar" id="stickyCartBar">
+        <button class="sticky-cart-button" id="stickyCartButton" type="button">
+            カートに入れる
+        </button>
+    </div>
+    
+    
+    <!-- ==============================
+        Product Modal
+    ============================== -->
+    
+    <div class="product-modal-overlay" id="productModal" aria-hidden="true">
+    
+        <div class="product-modal" role="dialog" aria-modal="true" aria-label="商品をカートに追加">
+    
+            <button class="product-modal-close" id="productModalClose" type="button" aria-label="閉じる">
+                ×
+            </button>
+    
+            <div class="product-modal-content">
+    
+                <div class="product-modal-image">
+                    <img id="modalProductImage" src="img/headphone-black.webp" alt="LUNÉ ONE">
+                </div>
+    
+                <div class="product-modal-info">
+                    <h2> LUNÉ ONE </h2>
+                    <p class="product-modal-price">
+                        ¥--,--- <span>税込</span>
+                    </p>
+                </div>
+    
+            </div>
+    
+            <!-- カラー選択 -->
+            <div class="product-modal-color">
+    
+                <p class="option-label">
+                    COLOR: <span id="modalColorName">Black</span>
+                </p>
+    
+                <div class="color-options-wrapper">
+                    <div class="color-active-ring" id="modalColorRing"></div>
+    
+                    <div class="color-options">
+    
+                        <button class="color-button black active" type="button" aria-label="Black" data-name="Black"
+                            data-img="img/headphone-black.webp">
+                        </button>
+    
+                        <button class="color-button silver" type="button" aria-label="Silver" data-name="Silver"
+                            data-img="img/headphone-silver.webp">
+                        </button>
+    
+                        <button class="color-button white" type="button" aria-label="White" data-name="White"
+                            data-img="img/headphone-white.webp">
+                        </button>
+    
+                    </div>
+                </div>
+    
+            </div>
+    
+            <button class="modal-add-cart-button" id="modalAddCartButton" type="button">
+                カートに入れる
+            </button>
+    
+        </div>
+    
+    </div>
 
     <!-- =========================
          Footer

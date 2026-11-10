@@ -2,11 +2,40 @@
 // LUNÉ EC SITE - script.js
 // ==============================
 
-// カートの保存キー
 const CART_KEY = "lune_cart";
 
 // ==============================
-// 1. ハンバーガーメニュー開閉
+// 1. ページフェードイン・フェードアウト & ロゴ遷移
+// ==============================
+
+document.addEventListener("DOMContentLoaded", () => {
+    requestAnimationFrame(() => {
+        document.body.classList.add("is-loaded");
+    });
+
+    const logoLinks = document.querySelectorAll(".logo");
+    logoLinks.forEach((logo) => {
+        logo.addEventListener("click", (e) => {
+            const targetUrl = logo.getAttribute("href");
+            if (targetUrl && !targetUrl.startsWith("#")) {
+                e.preventDefault();
+                document.body.classList.remove("is-loaded");
+                document.body.classList.add("page-fade-out");
+                setTimeout(() => {
+                    window.location.href = targetUrl;
+                }, 400);
+            }
+        });
+    });
+});
+
+window.addEventListener("pageshow", () => {
+    document.body.classList.remove("page-fade-out");
+    document.body.classList.add("is-loaded");
+});
+
+// ==============================
+// 2. ハンバーガーメニュー開閉
 // ==============================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -19,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
             navOverlay.classList.add("is-active");
             navOverlay.setAttribute("aria-hidden", "false");
             menuToggle.setAttribute("aria-expanded", "true");
-            document.body.style.overflow = "hidden"; // 背景スクロール防止
+            document.body.style.overflow = "hidden";
         });
     }
 
@@ -28,17 +57,16 @@ document.addEventListener("DOMContentLoaded", () => {
             navOverlay.classList.remove("is-active");
             navOverlay.setAttribute("aria-hidden", "true");
             if (menuToggle) menuToggle.setAttribute("aria-expanded", "false");
-            document.body.style.overflow = ""; // スクロール解除
+            document.body.style.overflow = "";
         });
     }
 });
 
 // ==============================
-// 2. カルーセル & スクロールアニメーション (fade-in-up)
+// 3. カルーセル & スクロールアニメーション (fade-in-up)
 // ==============================
 
 document.addEventListener("DOMContentLoaded", () => {
-    // ヒーローイメージ カルーセル制御
     const slides = document.querySelectorAll(".carousel-slide");
     const dots = document.querySelectorAll(".carousel-dots .dot");
 
@@ -71,7 +99,6 @@ document.addEventListener("DOMContentLoaded", () => {
         startAutoSlide();
     }
 
-    // スクロール時の Fade-in-up 制御 (重複を統合)
     const fadeElements = document.querySelectorAll(".fade-in-up");
     if (fadeElements.length > 0) {
         const observerOptions = {
@@ -104,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ==============================
-// 3. カート基本データ処理 (LocalStorage)
+// 4. カート基本データ処理 (LocalStorage)
 // ==============================
 
 function getCart() {
@@ -118,8 +145,6 @@ function saveCart(cart) {
 
 function addToCart(product) {
     const cart = getCart();
-
-    // IDとカラーが両方一致する商品があるか確認
     const existingProduct = cart.find(
         item => item.id === product.id && item.color === product.color
     );
@@ -130,7 +155,7 @@ function addToCart(product) {
         cart.push({
             id: product.id,
             name: product.name,
-            price: product.price,
+            price: product.price || "¥--,---",
             image: product.image,
             color: product.color || "Black",
             quantity: 1
@@ -150,9 +175,6 @@ function updateCartCount() {
         element.textContent = totalQuantity;
     });
 }
-// ==============================
-// 4. カートページ表示・操作ロジック
-// ==============================
 
 function displayCart() {
     const cartItemsContainer = document.getElementById("cart-items");
@@ -181,7 +203,6 @@ function displayCart() {
         return;
     }
 
-    // 各要素の特定用に data-id, data-color を付与、buttonに event を渡すよう変更
     cartItemsContainer.innerHTML = cart.map(item => {
         const itemColor = item.color || "Black";
         return `
@@ -213,7 +234,6 @@ function changeQuantity(productId, color, amount, event) {
 
     product.quantity += amount;
 
-    // 数量が 0 以下になった場合はアニメーション付き削除処理へ渡す
     if (product.quantity <= 0) {
         removeFromCart(productId, targetColor, event);
         return;
@@ -229,7 +249,6 @@ function removeFromCart(productId, color, event) {
     const cart = getCart();
     const targetColor = color || "Black";
 
-    // 押されたボタンの親要素（.cart-item）を取得、見つからなければ属性検索
     let itemElement = null;
     if (event && event.target) {
         itemElement = event.target.closest(".cart-item");
@@ -249,7 +268,6 @@ function removeFromCart(productId, color, event) {
         updateCartCount();
     };
 
-    // 要素が存在すればクラスを付与し、アニメーション（400ms）完了後にDOMから削除
     if (itemElement) {
         itemElement.classList.add("fade-out");
         setTimeout(executeDelete, 400);
@@ -269,50 +287,60 @@ function updateCartSummary() {
 }
 
 // ==============================
-// 5. Product Hero ・ バリアント選択 ・ 飛ぶ円アニメーション
+// 5. Product Hero & 飛翔アニメーション
 // ==============================
 
 document.addEventListener("DOMContentLoaded", () => {
-    const colorButtons = document.querySelectorAll(".color-button");
+    const colorButtons = document.querySelectorAll(".product-option .color-button");
     const colorRing = document.getElementById("colorRing");
     const colorName = document.getElementById("colorName");
     const productImage = document.getElementById("productImage");
     const addCartButtons = document.querySelectorAll(".add-cart-button");
 
+    const stickyCartBar = document.getElementById("stickyCartBar");
+    const stickyCartButton = document.getElementById("stickyCartButton");
+    const firstCartButton = document.getElementById("addCartBtn");
+    const footer = document.querySelector(".footer");
+
+    const productModal = document.getElementById("productModal");
+    const productModalClose = document.getElementById("productModalClose");
+    const modalImage = document.getElementById("modalProductImage");
+    const modalColorName = document.getElementById("modalColorName");
+    const modalColorRing = document.getElementById("modalColorRing");
+    const modalColorButtons = document.querySelectorAll(".product-modal-color .color-button");
+    const modalAddCartButton = document.getElementById("modalAddCartButton");
+
+    function moveRingTo(ring, button) {
+        if (!ring || !button) return;
+        const wrapper = button.closest(".color-options-wrapper");
+        if (!wrapper) return;
+
+        const wrapperRect = wrapper.getBoundingClientRect();
+        const btnRect = button.getBoundingClientRect();
+
+        const x = btnRect.left - wrapperRect.left - (36 - btnRect.width) / 2;
+        const y = btnRect.top - wrapperRect.top - (36 - btnRect.height) / 2;
+
+        ring.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
     if (colorRing && colorButtons.length > 0) {
-        // 白枠リングの位置合わせ関数
-        function moveRingTo(button) {
-            const wrapper = button.closest(".color-options-wrapper");
-            const wrapperRect = wrapper.getBoundingClientRect();
-            const btnRect = button.getBoundingClientRect();
-
-            const x = btnRect.left - wrapperRect.left - (36 - btnRect.width) / 2;
-            const y = btnRect.top - wrapperRect.top - (36 - btnRect.height) / 2;
-
-            colorRing.style.transform = `translate(${x}px, ${y}px)`;
-        }
-
-        // 初期位置の適用
-        const initialActive = document.querySelector(".color-button.active");
+        const initialActive = document.querySelector(".product-option .color-button.active");
         if (initialActive) {
-            setTimeout(() => moveRingTo(initialActive), 50);
+            setTimeout(() => moveRingTo(colorRing, initialActive), 50);
         }
 
-        // カラー切り替えイベント（押した瞬間の即時移動を防ぐ遅延処理付き）
         let isTransitioning = false;
 
         colorButtons.forEach((button) => {
             button.addEventListener("click", () => {
                 if (button.classList.contains("active") || isTransitioning) return;
-
                 isTransitioning = true;
 
-                // 200msの間を置いてからぬーっと動く
                 setTimeout(() => {
                     colorButtons.forEach((btn) => btn.classList.remove("active"));
                     button.classList.add("active");
-
-                    moveRingTo(button);
+                    moveRingTo(colorRing, button);
 
                     if (colorName) colorName.textContent = button.dataset.name;
 
@@ -332,81 +360,192 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ==============================
-    // ADD TO CART（タップ位置からの飛翔アニメーション）
-    // ==============================
+    // 黄色の飛翔アニメーション処理
+    function animateCart(button, event) {
+        const cartIcon = document.querySelector(".header-icon-cart") || document.querySelector(".cart-icon");
+        if (!cartIcon) return;
+
+        const btnRect = button.getBoundingClientRect();
+        const startX = (event && event.clientX ? event.clientX : btnRect.left + btnRect.width / 2) - 8;
+        const startY = (event && event.clientY ? event.clientY : btnRect.top + btnRect.height / 2) - 8;
+
+        const cartRect = cartIcon.getBoundingClientRect();
+        const targetX = cartRect.left + cartRect.width / 2 - 8;
+        const targetY = cartRect.top + cartRect.height / 2 - 8;
+
+        const moveX = targetX - startX;
+        const moveY = targetY - startY;
+
+        const ball = document.createElement("div");
+        ball.className = "flying-ball";
+        ball.style.left = `${startX}px`;
+        ball.style.top = `${startY}px`;
+        document.body.appendChild(ball);
+
+        requestAnimationFrame(() => {
+            ball.style.transform = `translate(${moveX}px, ${moveY}px) scale(0.3)`;
+            ball.style.opacity = "0.1";
+        });
+
+        setTimeout(() => {
+            ball.remove();
+            cartIcon.classList.remove("cart-icon-bounce");
+            void cartIcon.offsetWidth;
+            cartIcon.classList.add("cart-icon-bounce");
+
+            setTimeout(() => {
+                cartIcon.classList.remove("cart-icon-bounce");
+            }, 600);
+        }, 900);
+    }
 
     addCartButtons.forEach((btn) => {
-        btn.addEventListener("click", (e) => {
-            e.preventDefault(); // デフォルトの画面遷移・フォーム送信を確実に防止
+        btn.addEventListener("click", (event) => {
+            event.preventDefault();
 
-            // 1. カートデータの保存処理
-            const activeColorBtn = document.querySelector(".color-button.active");
+            const activeColorBtn = document.querySelector(".product-option .color-button.active");
             const selectedColor = activeColorBtn ? activeColorBtn.dataset.name : "Black";
             const selectedImg = activeColorBtn ? activeColorBtn.dataset.img : "img/headphone-black.webp";
 
             const productData = {
                 id: "lune-one",
                 name: "LUNÉ ONE",
-                price: 48000,
+                price: "¥--,---",
                 image: selectedImg,
                 color: selectedColor
             };
 
             addToCart(productData);
-
-            // 2. カートアイコンの取得
-            const cartIcon = document.querySelector(".header-icon-cart") || document.querySelector(".cart-icon");
-            if (!cartIcon) return;
-
-            // 3. 始点座標の計算（指で実際に押したタッチ座標）
-            const btnRect = btn.getBoundingClientRect();
-            const startX = (e.clientX || (btnRect.left + btnRect.width / 2)) - 8;
-            const startY = (e.clientY || (btnRect.top + btnRect.height / 2)) - 8;
-
-            // 4. 終点座標の計算（カートアイコン中心）
-            const cartRect = cartIcon.getBoundingClientRect();
-            const targetX = cartRect.left + cartRect.width / 2 - 8;
-            const targetY = cartRect.top + cartRect.height / 2 - 8;
-
-            const moveX = targetX - startX;
-            const moveY = targetY - startY;
-
-            // 5. 飛ぶ粒の生成
-            const ball = document.createElement("div");
-            ball.className = "flying-ball";
-            ball.style.left = `${startX}px`;
-            ball.style.top = `${startY}px`;
-            document.body.appendChild(ball);
-
-            requestAnimationFrame(() => {
-                ball.style.transform = `translate(${moveX}px, ${moveY}px) scale(0.3)`;
-                ball.style.opacity = "0.1";
-            });
-
-            // 6. 到着後の跳ね＆横揺れ演出（クラス着脱方式）
-            setTimeout(() => {
-                ball.remove();
-
-                // 連続タップ時にアニメーションを最初から再再生させる処理
-                cartIcon.classList.remove("cart-icon-bounce");
-                void cartIcon.offsetWidth; // リフローを発生させてアニメーションをリセット
-
-                // 横揺れアニメーションクラスを付与
-                cartIcon.classList.add("cart-icon-bounce");
-
-                // アニメーション完了後（0.6秒後）にクラスを削除
-                setTimeout(() => {
-                    cartIcon.classList.remove("cart-icon-bounce");
-                }, 600);
-
-            }, 900);
+            animateCart(btn, event);
         });
     });
+
+    if (stickyCartBar && stickyCartButton && productModal) {
+        let firstButtonVisible = true;
+        let footerVisible = false;
+
+        function updateStickyButton() {
+            const shouldShow = !firstButtonVisible && !footerVisible && !productModal.classList.contains("is-active");
+            stickyCartBar.classList.toggle("is-visible", shouldShow);
+        }
+
+        if (firstCartButton) {
+            const firstButtonObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    firstButtonVisible = entry.isIntersecting;
+                    updateStickyButton();
+                });
+            }, { threshold: 0.01 });
+            firstButtonObserver.observe(firstCartButton);
+        } else {
+            firstButtonVisible = false;
+        }
+
+        if (footer) {
+            const footerObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    footerVisible = entry.isIntersecting;
+                    updateStickyButton();
+                });
+            }, { threshold: 0.01 });
+            footerObserver.observe(footer);
+        }
+
+        updateStickyButton();
+
+        let selectedModalColor = { name: "Black", image: "img/headphone-black.webp" };
+
+        function openProductModal() {
+            const activeMainColor = document.querySelector(".product-option .color-button.active");
+            if (activeMainColor) {
+                selectedModalColor = {
+                    name: activeMainColor.dataset.name,
+                    image: activeMainColor.dataset.img
+                };
+            }
+
+            modalColorButtons.forEach((button) => {
+                button.classList.toggle("active", button.dataset.name === selectedModalColor.name);
+            });
+
+            if (modalImage) modalImage.src = selectedModalColor.image;
+            if (modalColorName) modalColorName.textContent = selectedModalColor.name;
+
+            const activeModalColor = document.querySelector(".product-modal-color .color-button.active");
+            if (activeModalColor) {
+                setTimeout(() => moveRingTo(modalColorRing, activeModalColor), 50);
+            }
+
+            productModal.classList.add("is-active");
+            productModal.setAttribute("aria-hidden", "false");
+            document.body.classList.add("modal-open");
+            updateStickyButton();
+        }
+
+        stickyCartButton.addEventListener("click", openProductModal);
+
+        modalColorButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                if (button.classList.contains("active")) return;
+                modalColorButtons.forEach((btn) => btn.classList.remove("active"));
+                button.classList.add("active");
+
+                selectedModalColor = {
+                    name: button.dataset.name,
+                    image: button.dataset.img
+                };
+
+                moveRingTo(modalColorRing, button);
+                if (modalColorName) modalColorName.textContent = selectedModalColor.name;
+
+                if (modalImage) {
+                    modalImage.classList.add("switching");
+                    setTimeout(() => {
+                        modalImage.src = selectedModalColor.image;
+                        modalImage.classList.remove("switching");
+                    }, 250);
+                }
+            });
+        });
+
+        function closeProductModal() {
+            productModal.classList.remove("is-active");
+            productModal.setAttribute("aria-hidden", "true");
+            document.body.classList.remove("modal-open");
+            updateStickyButton();
+        }
+
+        if (productModalClose) productModalClose.addEventListener("click", closeProductModal);
+
+        productModal.addEventListener("click", (event) => {
+            if (event.target === productModal) closeProductModal();
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && productModal.classList.contains("is-active")) {
+                closeProductModal();
+            }
+        });
+
+        if (modalAddCartButton) {
+            modalAddCartButton.addEventListener("click", (event) => {
+                const productData = {
+                    id: "lune-one",
+                    name: "LUNÉ ONE",
+                    price: "¥--,---",
+                    image: selectedModalColor.image,
+                    color: selectedModalColor.name
+                };
+                addToCart(productData);
+                animateCart(modalAddCartButton, event);
+                // モーダルを閉じずに開いたまま維持
+            });
+        }
+    }
 });
 
 // ==============================
-// チェックアウトボタン & モーダル制御
+// 6. チェックアウトボタン & アンケートモーダル制御
 // ==============================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -415,26 +554,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const modalClose = document.getElementById("modalClose");
 
     if (checkoutBtn && surveyModal) {
-        // 購入（CHECKOUT）ボタンクリック時
         checkoutBtn.addEventListener("click", () => {
-            // タップアニメーションの余韻を見せるため、わずかに遅延（0.15秒）させてモーダル表示
             setTimeout(() => {
                 surveyModal.classList.add("is-active");
                 surveyModal.setAttribute("aria-hidden", "false");
-                document.body.style.overflow = "hidden"; // 背景スクロール固定
+                document.body.style.overflow = "hidden";
             }, 150);
         });
     }
 
-    // モーダルを閉じる処理
     if (modalClose && surveyModal) {
         modalClose.addEventListener("click", () => {
             surveyModal.classList.remove("is-active");
             surveyModal.setAttribute("aria-hidden", "true");
-            document.body.style.overflow = ""; // スクロール解除
+            document.body.style.overflow = "";
         });
 
-        // モーダル外側の暗がりをタップした時も閉じる
         surveyModal.addEventListener("click", (e) => {
             if (e.target === surveyModal) {
                 surveyModal.classList.remove("is-active");
@@ -446,47 +581,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ==============================
-// ページ開閉時のふわっとフェード制御 & ロゴ遷移
-// ==============================
-
-// A. ページ読み込み時：画面をふわっとフェードイン表示
-document.addEventListener("DOMContentLoaded", () => {
-    // DOM構築完了後にクラスを付与してフェードイン
-    requestAnimationFrame(() => {
-        document.body.classList.add("is-loaded");
-    });
-
-    // B. ロゴ（.logo）クリック時：ふわっとフェードアウトしてから遷移
-    const logoLinks = document.querySelectorAll(".logo");
-
-    logoLinks.forEach((logo) => {
-        logo.addEventListener("click", (e) => {
-            const targetUrl = logo.getAttribute("href");
-
-            if (targetUrl && !targetUrl.startsWith("#")) {
-                e.preventDefault(); // 即時遷移を防止
-
-                // フェードアウトクラスを付与
-                document.body.classList.remove("is-loaded");
-                document.body.classList.add("page-fade-out");
-
-                // アニメーション完了（0.4秒後）にページ遷移
-                setTimeout(() => {
-                    window.location.href = targetUrl;
-                }, 400);
-            }
-        });
-    });
-});
-
-// C. スマホの「戻る」ボタンで復帰した際もふわっとフェードイン
-window.addEventListener("pageshow", () => {
-    document.body.classList.remove("page-fade-out");
-    document.body.classList.add("is-loaded");
-});
-
-// ==============================
-// 6. 初期化
+// 7. 初期表示処理
 // ==============================
 
 document.addEventListener("DOMContentLoaded", () => {
